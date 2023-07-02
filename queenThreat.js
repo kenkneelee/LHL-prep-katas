@@ -16,50 +16,33 @@ const generateBoard = function (white, black) {
 };
 
 const queenThreat = function (board) {
-  // Check for Queens in the same row
+  // Get the coordinates of the Queens (reverse generateBoard)
+  let queens = [];
   for (let x = 0; x < board.length; x++) {
-    // Total number of queens in row
-    let total = 0;
-    for (let space of board[x]) {
-      if (space === 1) {
-        total++;
-      }
-    }
-    if (total > 1) {
-      return true;
-    }
-  }
-
-  // Check for Queens in the same column
-  for (let y = 0; y < board.length; y++) {
-    let total = 0;
-    for (let x = 0; x < board.length; x++) {
+    for (let y = 0; y < board.length; y++) {
       if (board[x][y] === 1) {
-        total++;
-      }
-    }
-    if (total > 1) {
-      return true;
-    }
-  }
-  // Check for Queens in the same diagonal
-  let whiteCoord = [];
-  let blackCoord = [];
-  for (let x = 0; x<board.length;x++) {
-    for (let y = 0; y< board.length; y++) {
-      if (board[x][y]===1) {
-
+        queens.push([x, y]);
       }
     }
   }
-
-
-  // If Queens are not in the same column, row, or diagonal, return false
+  // Check if Queens are in the same row by checking x coord
+  // Check if Queens are in the same column by checking y coord
+  if (queens[0][0] == queens[1][0] || queens[0][1] == queens[1][1]) {
+    return true;
+  }
+  // Check if Queens are in the same diagonal
+  if (
+    Math.abs(queens[0][0] - queens[1][0]) ==
+    Math.abs(queens[0][1] - queens[1][1])
+  ) {
+    return true;
+  }
+  // No threat if Queens are not in the same vertical, horizontal, or diagonal lines
   return false;
 };
 
-let whiteQueen = [0, 5];
-let blackQueen = [5, 6];
+let whiteQueen = [0, 0];
+let blackQueen = [5, 7];
 let generatedBoard = generateBoard(whiteQueen, blackQueen);
 console.log(generatedBoard);
 console.log(queenThreat(generatedBoard));
